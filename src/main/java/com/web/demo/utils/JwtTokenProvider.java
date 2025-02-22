@@ -1,6 +1,7 @@
 package com.web.demo.utils;
 
 import com.web.demo.enums.RoleType;
+import com.web.demo.enums.UserRole;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

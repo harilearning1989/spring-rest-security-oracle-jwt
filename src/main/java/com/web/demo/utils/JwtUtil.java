@@ -1,24 +1,28 @@
 package com.web.demo.utils;
 
+import com.web.demo.models.Role;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import javax.management.relation.Role;
 import java.util.Date;
+import java.util.Set;
 
 @Component
 public class JwtUtil {
-    @Value("${spring.security.jwt.secret}")
+    @Value("${jwt.secret}")
     private String secret;
 
-    @Value("${spring.security.jwt.expirationMs}")
+    @Value("${jwt.expirationMs}")
     private long expirationMs;
 
-    public String generateToken(String username, Role role) {
+    public String generateToken(String username, Set<Role> role) {
         return Jwts.builder()
                 .setSubject(username)
-                .claim("role", role.name())
+                .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationMs))
                 .signWith(SignatureAlgorithm.HS256, secret)
