@@ -1,14 +1,9 @@
 package com.web.demo.dtos;
 
-import com.web.demo.enums.UserGender;
+import java.util.Set;
 
 public record EmployeeRequestDto(String username,
                                  String password,
-                                 String fullName,
-                                 UserGender userGender,
-                                 String email,
-                                 String phone,
-                                 String station,
-                                 String dob,
-                                 String doj) {
+                                 Set<String> roles
+) {
 }

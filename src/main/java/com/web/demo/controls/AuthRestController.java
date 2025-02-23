@@ -1,6 +1,5 @@
 package com.web.demo.controls;
 
-import com.web.demo.constants.CommonConstants;
 import com.web.demo.dtos.EmployeeRequestDto;
 import com.web.demo.dtos.LoginRequest;
 import com.web.demo.response.AuthResponse;
@@ -30,6 +29,9 @@ public class AuthRestController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthRestController.class);
 
+    private static final String USER = "User";
+    private static final String REGISTER_SUCCESS = "Successfully Registered %s with the Name: %s ";
+
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
@@ -48,8 +50,7 @@ public class AuthRestController {
         LOGGER.info("The request entered into registerEmployee with the userId::{}", employeeRequestDto.username());
         String username = userService.registerUser(employeeRequestDto);
         return ResponseHandler.generateResponse(
-                String.format(CommonConstants.REGISTER_SUCCESS,
-                        CommonConstants.USER, employeeRequestDto.username()), HttpStatus.OK, username);
+                String.format(REGISTER_SUCCESS, USER, employeeRequestDto.username()), HttpStatus.OK, username);
     }
 
     @PostMapping("/login")

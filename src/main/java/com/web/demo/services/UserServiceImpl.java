@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +30,24 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
+    @Override
+    public String registerUser(EmployeeRequestDto dto) {
+        Users users = new Users();
+        users.setUsername(dto.username());
+        users.setPassword(passwordEncoder.encode(dto.password()));
+
+        Set<Role> roles = new HashSet<>();
+        for (String roleName : dto.roles()) {
+            Role role = roleRepository.findByName(roleName)
+                    .orElseThrow(() -> new RuntimeException("Role not found"));
+            roles.add(role);
+        }
+        // Assign roles to the user
+        users.setRoles(roles);
+        users = userRepository.save(users);
+        return users.getUsername();
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     public List<Users> getAllUsers() {
         return userRepository.findAll();
@@ -47,35 +64,4 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(users);
     }
 
-    @Override
-    public String registerUser(EmployeeRequestDto dto) {
-        Users users = new Users();
-        users.setUsername(dto.username());
-        users.setPassword(passwordEncoder.encode(dto.password()));
-
-        /*Set<Role> roles = new HashSet<>();
-        String role_name = "ROLE_EMPLOYEE";
-        Role role = roleRepository.findByName(role_name)
-                .orElseThrow(() -> new RuntimeException("Role not found"));
-        roles.add(role);
-
-        users.setRoles(roles);*/
-
-        Set<Role> roles = new HashSet<>();
-        for (String roleName : Arrays.asList("ROLE_ADMIN", "ROLE_EMPLOYEE")) {
-            Role role = roleRepository.findByName(roleName)
-                    .orElseThrow(() -> new RuntimeException("Role not found"));
-            roles.add(role);
-        }
-
-        // Assign roles to the user
-        users.setRoles(roles);
-
-        users = userRepository.save(users);
-
-        //Employee employee = dataMappers.toEmployee(dto, users);
-        //employee = employeeRepository.save(employee);
-        //return dataMappers.toDto(users, employee);
-        return users.getUsername();
-    }
 }
