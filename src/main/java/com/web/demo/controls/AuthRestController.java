@@ -1,6 +1,6 @@
 package com.web.demo.controls;
 
-import com.web.demo.dtos.EmployeeRequestDto;
+import com.web.demo.dtos.UserRequestDto;
 import com.web.demo.dtos.LoginRequest;
 import com.web.demo.response.AuthResponse;
 import com.web.demo.response.GlobalResponse;
@@ -45,12 +45,12 @@ public class AuthRestController {
     }
 
     @PostMapping("/register")
-    public GlobalResponse registerEmployee(
-            @Valid @RequestBody EmployeeRequestDto employeeRequestDto) {
-        LOGGER.info("The request entered into registerEmployee with the userId::{}", employeeRequestDto.username());
-        String username = userService.registerUser(employeeRequestDto);
+    public GlobalResponse registerUser(
+            @Valid @RequestBody UserRequestDto userDto) {
+        LOGGER.info("The request entered into registerEmployee with the userId::{}", userDto.username());
+        String username = userService.registerUser(userDto);
         return ResponseHandler.generateResponse(
-                String.format(REGISTER_SUCCESS, USER, employeeRequestDto.username()), HttpStatus.OK, username);
+                String.format(REGISTER_SUCCESS, USER, userDto.username()), HttpStatus.OK, username);
     }
 
     @PostMapping("/login")

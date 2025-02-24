@@ -1,6 +1,6 @@
 package com.web.demo.services;
 
-import com.web.demo.dtos.EmployeeRequestDto;
+import com.web.demo.dtos.UserRequestDto;
 import com.web.demo.models.Role;
 import com.web.demo.models.Users;
 import com.web.demo.repos.RoleRepository;
@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String registerUser(EmployeeRequestDto dto) {
+    public String registerUser(UserRequestDto dto) {
         Users users = new Users();
         users.setUsername(dto.username());
         users.setPassword(passwordEncoder.encode(dto.password()));

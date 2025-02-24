@@ -1,11 +1,8 @@
 package com.web.demo.services;
 
-import com.web.demo.dtos.EmployeeRequestDto;
-import com.web.demo.models.Users;
-
-import java.util.List;
+import com.web.demo.dtos.UserRequestDto;
 
 public interface UserService {
     //List<Users> getAllUsers();
-    String registerUser(EmployeeRequestDto employeeRequestDto);
+    String registerUser(UserRequestDto employeeRequestDto);
 }
