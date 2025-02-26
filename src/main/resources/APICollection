@@ -1,0 +1,16 @@
+http://localhost:8081/auth/register
+
+{
+    "username": "deekshith4",
+    "password": "12345",
+    "roles": [
+        "ROLE_LEAD"
+    ]
+}
+
+http://localhost:8081/auth/login
+
+{
+    "username": "deekshith4",
+    "password": "12345"
+}

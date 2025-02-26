@@ -2,6 +2,7 @@ package com.web.demo.controls;
 
 import com.web.demo.dtos.UserRequestDto;
 import com.web.demo.dtos.LoginRequest;
+import com.web.demo.models.Users;
 import com.web.demo.response.AuthResponse;
 import com.web.demo.response.GlobalResponse;
 import com.web.demo.response.ResponseHandler;
@@ -15,11 +16,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -71,23 +70,9 @@ public class AuthRestController {
         return ResponseHandler.getAuthResponse(token, HttpStatus.OK, loginRequest.username(), roles);
     }
 
-   /* @PostMapping("/registerTmp")
-    public ResponseEntity<?> register(@RequestBody Users user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-        return ResponseEntity.ok("User registered successfully");
-    }
-
-    @PostMapping("/loginTmp")
-    public ResponseEntity<?> login(@RequestBody Users user) {
-        Users dbUser = userRepository.findByUsername(user.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        if (!passwordEncoder.matches(user.getPassword(), dbUser.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
-        }
-
-        String token = jwtUtil.generateToken(dbUser.getUsername(), dbUser.getRoles());
-        return ResponseEntity.ok(Map.of("token", token));
+   /* @GetMapping("allUsers")
+    public GlobalResponse getAllUsers(){
+        List<Users> usersList = userService.getAllUsers();
+        return ResponseHandler.generateResponse("Fetched User Details Successfully", HttpStatus.OK, usersList);
     }*/
 }
