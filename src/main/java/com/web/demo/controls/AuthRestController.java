@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,7 +61,7 @@ public class AuthRestController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         // Extract roles
         Set<String> roles = authentication.getAuthorities().stream()
-                .map(auth -> auth.getAuthority())
+                .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toSet());
         // Generate JWT token with roles
         String token = jwtTokenProvider.generateToken(loginRequest.username(), roles);
