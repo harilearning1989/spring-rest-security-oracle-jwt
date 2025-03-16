@@ -55,6 +55,7 @@ public class AuthRestController {
 
     @PostMapping("/login")
     public AuthResponse login(@RequestBody LoginRequest loginRequest) throws Exception {
+        LOGGER.info("AuthRestController login:::::");
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password())
         );
