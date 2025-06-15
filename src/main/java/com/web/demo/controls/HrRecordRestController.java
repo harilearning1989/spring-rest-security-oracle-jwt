@@ -23,9 +23,21 @@ public class HrRecordRestController {
         this.hrRecordService = hrRecordService;
     }
 
+    @GetMapping("top10")
+    public ResponseEntity<List<HrRecordDto>> findTop10By() {
+        List<HrRecordDto> hrRecordDtoList = hrRecordService.findTop10By();
+        if (hrRecordDtoList.isEmpty()) {
+            LOGGER.warn("findTop10By() No HR records found");
+            return ResponseEntity.noContent().build();
+        }
+        LOGGER.info("findTop10By() Returning {} HR records", hrRecordDtoList.size());
+        return ResponseEntity.ok(hrRecordDtoList);
+    }
+
     @GetMapping("all")
     public ResponseEntity<List<HrRecordDto>> getAllHrRecord() {
         List<HrRecordDto> hrRecordDtoList = hrRecordService.getAllHrRecord();
+
         if (hrRecordDtoList.isEmpty()) {
             LOGGER.warn("No HR records found");
             return ResponseEntity.noContent().build();
@@ -33,4 +45,6 @@ public class HrRecordRestController {
         LOGGER.info("Returning {} HR records", hrRecordDtoList.size());
         return ResponseEntity.ok(hrRecordDtoList);
     }
+
+
 }

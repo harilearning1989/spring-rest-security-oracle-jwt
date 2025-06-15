@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface HrRecordService {
     List<HrRecordDto> getAllHrRecord();
+
+    List<HrRecordDto> findTop10By();
 }

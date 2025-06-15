@@ -69,14 +69,34 @@ public class GlobalExceptionHandler {
         return getProblemDetails(ex.getMessage(), request, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(RuntimeException.class)
+    /*@ExceptionHandler(RuntimeException.class)
     public ProblemDetail handleNullPointerException(RuntimeException ex, WebRequest request) {
         return getProblemDetails(ex.getMessage(), request, HttpStatus.NOT_ACCEPTABLE);
-    }
+    }*/
 
     @ExceptionHandler(NoResourceFoundException.class)
     public ProblemDetail handleNoResourceFoundException(NoResourceFoundException ex, WebRequest request) {
         return getProblemDetails(ex.getMessage(), request, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ProblemDetail handleRuntimeException(RuntimeException ex) {
+        Throwable cause = ex.getCause();
+
+        // Check if the cause is OutOfMemoryError
+        if (cause instanceof OutOfMemoryError) {
+            ProblemDetail detail = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+            detail.setTitle("Out of Memory");
+            detail.setDetail("The server ran out of memory while processing the request.");
+            detail.setProperty("type", "https://yourdomain.com/errors/out-of-memory");
+            return detail;
+        }
+
+        // Handle other RuntimeExceptions normally
+        ProblemDetail generic = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        generic.setTitle("Internal Server Error");
+        generic.setDetail(ex.getMessage());
+        return generic;
     }
 
     private ProblemDetail getProblemDetails(String message, WebRequest request, HttpStatus httpStatus) {

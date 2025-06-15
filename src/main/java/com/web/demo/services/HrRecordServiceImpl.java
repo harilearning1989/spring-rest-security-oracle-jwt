@@ -23,13 +23,28 @@ public class HrRecordServiceImpl implements HrRecordService {
     }
 
     @Override
-    public List<HrRecordDto> getAllHrRecord() {
-        LOGGER.info("getAllHrRecord");
+    public List<HrRecordDto> findTop10By() {
+        LOGGER.info("findTop10By Entry");
         List<HrRecords>  hrRecordsList = hrRecordRepository.findTop10By();
         if (hrRecordsList.isEmpty()) {
-            LOGGER.warn("No HR records found in the database");
+            LOGGER.warn("findTop10By() No HR records found in the database");
             return List.of();
         }
+        return toDtoList(hrRecordsList);
+    }
+
+    @Override
+    public List<HrRecordDto> getAllHrRecord() {
+        LOGGER.info("getAllHrRecord");
+        List<HrRecords> hrRecordsList = hrRecordRepository.findAll();
+        if (hrRecordsList.isEmpty()) {
+            LOGGER.warn("getAllHrRecord() No HR records found in the database");
+            return List.of();
+        }
+        return toDtoList(hrRecordsList);
+    }
+
+    public static List<HrRecordDto> toDtoList(List<HrRecords> hrRecordsList) {
         return Optional.of(hrRecordsList)
                 .orElseGet(Collections::emptyList)
                 .stream()
