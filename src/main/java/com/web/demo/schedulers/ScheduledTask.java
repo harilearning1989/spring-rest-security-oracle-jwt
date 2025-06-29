@@ -20,6 +20,7 @@ public class ScheduledTask {
                 + "===Initial Heap (totalMemory): " + (totalHeap / 1024 / 1024 + " MB")
                 + "===Free Heap (freeMemory): " + (freeHeap / 1024 / 1024 + " MB")
                 + "===Used Heap: " + (usedHeap / 1024 / 1024) + " MB");
+
     }
 
     // Runs every 5 minutes (in milliseconds)
